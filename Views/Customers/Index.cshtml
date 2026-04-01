@@ -12,9 +12,11 @@
 
 <form asp-controller="Customers" asp-action="Index" method="get" style="display: flex; align-items: center; gap: 10px;">
     <label for="searchInput">Find by name: </label>
-    
-    <input type="text" id="searchInput" name="name" placeholder="Enter name..." />
-    
+    <input type="text" id="searchInput" name="name" value="@ViewData["CurrentFilter"]" placeholder="Enter name..." />
+
+    <input type="hidden" name="sortBy" value="@ViewData["CurrentSort"]" />
+    <input type="hidden" name="isAscending" value="@(ViewData["IsAscending"]?.ToString()?.ToLower())" />
+
     <button type="submit" id="searchButton">Search</button>
     
     <b>|</b>
@@ -32,12 +34,16 @@ else
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.LastName)
+                    <a asp-controller="Customers" asp-action="Index" asp-route-sortBy="LastName" asp-route-isAscending="true" asp-route-name="@ViewData["CurrentFilter"]">▲</a>
+                    <a asp-controller="Customers" asp-action="Index" asp-route-sortBy="LastName" asp-route-isAscending="false" asp-route-name="@ViewData["CurrentFilter"]">▼</a>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.FirstName)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Address)
+                    <a asp-controller="Customers" asp-action="Index" asp-route-sortBy="Address" asp-route-isAscending="true" asp-route-name="@ViewData["CurrentFilter"]">▲</a>
+                    <a asp-controller="Customers" asp-action="Index" asp-route-sortBy="Address" asp-route-isAscending="false" asp-route-name="@ViewData["CurrentFilter"]">▼</a>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Discount)
