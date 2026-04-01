@@ -3,7 +3,7 @@ using EFC.Data;
 
 namespace EFC
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
