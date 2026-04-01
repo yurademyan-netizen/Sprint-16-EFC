@@ -20,16 +20,34 @@ public class CustomersController : Controller
     }
 
     // GET: Customers
-    public async Task<IActionResult> Index(string name)
+    public async Task<IActionResult> Index(string name, string sortBy = "LastName", bool isAscending = true)
     {
-        IEnumerable<Customer> filteredCustomers = await _context.Customers.ToListAsync();
+        ViewData["CurrentFilter"] = name;
+        ViewData["CurrentSort"] = sortBy;
+        ViewData["IsAscending"] = isAscending;
+
+        IQueryable<Customer> customersQuery = _context.Customers.AsQueryable();
+
         if (!string.IsNullOrEmpty(name))
         {
-            filteredCustomers = filteredCustomers
+            customersQuery = customersQuery
                 .Where(c => c.FirstName.Contains(name) || c.LastName.Contains(name));
         }
 
-        return View(filteredCustomers);
+        if (sortBy == "Address")
+        {
+            customersQuery = isAscending
+                ? customersQuery.OrderBy(c => c.Address)
+                : customersQuery.OrderByDescending(c => c.Address);
+        }
+        else
+        {
+            customersQuery = isAscending
+                ? customersQuery.OrderBy(c => c.LastName)
+                : customersQuery.OrderByDescending(c => c.LastName);
+        }
+
+        return View(await customersQuery.ToListAsync());
     }
 
     // GET: Customers/Details/5
