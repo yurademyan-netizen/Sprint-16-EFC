@@ -12,12 +12,19 @@ namespace EFC
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            // Додаємо реєстрацію ShoppingContext
+     
             builder.Services.AddDbContext<ShoppingContext>(options =>
                 options.UseSqlServer(builder.Configuration
                     .GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<ShoppingContext>();
+                SampleData.Initialize(context);
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
