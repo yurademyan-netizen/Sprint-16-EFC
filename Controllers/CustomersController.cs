@@ -20,9 +20,16 @@ namespace EFC.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string name)
         {
-            return View(await _context.Customers.ToListAsync());
+            IEnumerable<Customer> filteredCustomers = await _context.Customers.ToListAsync();
+            if (!string.IsNullOrEmpty(name))
+            {
+                filteredCustomers = filteredCustomers
+                    .Where(c => c.FirstName.Contains(name) || c.LastName.Contains(name));
+            }
+
+            return View(filteredCustomers);
         }
 
         // GET: Customers/Details/5

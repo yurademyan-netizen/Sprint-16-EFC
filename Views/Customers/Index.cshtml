@@ -9,6 +9,18 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-controller="Customers" asp-action="Index" method="get" style="display: flex; align-items: center; gap: 10px;">
+    <label for="searchInput">Find by name: </label>
+    
+    <input type="text" id="searchInput" name="name" placeholder="Enter name..." />
+    
+    <button type="submit" id="searchButton">Search</button>
+    
+    <b>|</b>
+    <a asp-controller="Customers" asp-action="Index">Back to Full List</a>
+</form>
+
 <table class="table">
     <thead>
         <tr>
