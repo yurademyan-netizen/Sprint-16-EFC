@@ -20,9 +20,13 @@ namespace EFC.Controllers
         }
 
         // GET: Supermarkets
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNum)
         {
-            return View(await _context.Supermarkets.ToListAsync());
+            int pageSize = 3;
+            var supermarkets = _context.Supermarkets.AsNoTracking();
+
+            return View(await PaginatedList<Supermarket>
+                .CreateAsync(supermarkets, pageNum ?? 1, pageSize));
         }
 
         // GET: Supermarkets/Details/5
