@@ -1,0 +1,65 @@
+﻿@model EFC.Models.OrderIndexData
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h1>Orders</h1>
+
+<p><a asp-action="Create">Create New</a></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>OrderDate</th>
+            <th>Customer</th>
+            <th>SuperMarket</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Orders)
+        {
+            string selectedRow = (item.Id == (int?)ViewData["OrderID"]) ? "table-primary" : "";
+
+            <tr class="@selectedRow">
+                <td>@Html.DisplayFor(modelItem => item.OrderDate)</td>
+                <td>@item.Customer.LastName</td> 
+                <td>@item.SuperMarket.Name</td>  
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.Id">Select</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.OrderDetails != null)
+{
+    <hr />
+    <h3>Order Details</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detail in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@detail.Product.Name</td>
+                    <td>@detail.Quantity</td>
+                    <td>
+                        <a asp-controller="OrderDetails" asp-action="Edit" asp-route-id="@detail.Id">Edit</a> |
+                        <a asp-controller="OrderDetails" asp-action="Delete" asp-route-id="@detail.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

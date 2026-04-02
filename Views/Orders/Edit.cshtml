@@ -1,0 +1,111 @@
+﻿@model EFC.Models.Order
+
+@{
+    ViewData["Title"] = "Редагування замовлення";
+}
+
+<div class="container">
+    <h2 class="mb-4">Редагування замовлення № @Model.Id</h2>
+
+    <!-- ФОРМА 1: ОСНОВНІ ДАНІ ЗАМОВЛЕННЯ -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="OrderDate" class="control-label">Дата замовлення</label>
+                            <input asp-for="OrderDate" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Покупець</label>
+                            <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Магазин</label>
+                            <select asp-for="SuperMarketId" class="form-control" asp-items="ViewBag.SuperMarketId"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-success">Зберегти основні зміни</button>
+                    <a asp-action="Index" class="btn btn-link">Повернутися до списку</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <hr />
+
+    <!-- СЕКЦІЯ ТОВАРІВ -->
+    <h4>Товари у замовленні</h4>
+
+    <!-- ФОРМА 2: ДОДАВАННЯ НОВОГО ТОВАРУ (ШВИДКА ФОРМА) -->
+    <div class="card bg-light mb-3">
+        <div class="card-body">
+            <form asp-action="AddDetail" method="post" class="row align-items-end">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="OrderId" value="@Model.Id" />
+
+                <div class="col-md-5">
+                    <label class="form-label">Оберіть товар</label>
+                    <select name="ProductId" class="form-control" asp-items="ViewBag.ProductId">
+                        <option value="">-- Оберіть товар --</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Кількість</label>
+                    <input name="Quantity" type="number" step="0.1" class="form-control" value="1" min="0.1" />
+                </div>
+
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100">Додати до списку</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ТАБЛИЦЯ ТОВАРІВ -->
+    <table class="table table-hover mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Товар</th>
+                <th>Кількість</th>
+                <th class="text-end">Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.OrderDetails != null && Model.OrderDetails.Any())
+            {
+                foreach (var detail in Model.OrderDetails)
+                {
+                    <tr>
+                        <td>@detail.Product?.Name</td>
+                        <td>@detail.Quantity</td>
+                        <td class="text-end">
+                            <form asp-action="DeleteDetail" asp-route-id="@detail.Id" method="post" onsubmit="return confirm('Видалити цей товар?')">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Видалити</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3" class="text-center text-muted">У цьому замовленні ще немає товарів.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
