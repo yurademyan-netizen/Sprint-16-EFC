@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36221.1 d17.14
+VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFC", "EFC.csproj", "{98233EFF-4A6D-4E41-80FC-1D3D3179E378}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFC.Tests", "..\EFC.Testss\EFC.Tests.csproj", "{8DE1FA92-A582-4224-9FF0-B8B8505BBE2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{98233EFF-4A6D-4E41-80FC-1D3D3179E378}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98233EFF-4A6D-4E41-80FC-1D3D3179E378}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98233EFF-4A6D-4E41-80FC-1D3D3179E378}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DE1FA92-A582-4224-9FF0-B8B8505BBE2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DE1FA92-A582-4224-9FF0-B8B8505BBE2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DE1FA92-A582-4224-9FF0-B8B8505BBE2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DE1FA92-A582-4224-9FF0-B8B8505BBE2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
